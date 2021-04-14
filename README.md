@@ -7,4 +7,6 @@ This repository will contain all things i know about my Robotron Reiss K6418 / C
 Foldername | Content
 ------ | ------
 Media   | all types of media like pictures and videos from the device
-ROMs | all my ROM dumps  
+ROMs * | all my ROM dumps
+
+_*not present_

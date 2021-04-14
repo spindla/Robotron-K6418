@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PlotterHelper": {
+      "commandName": "Project",
+      "commandLineArgs": "-s D:\\TEMP\\Test.hpgl"
+    }
+  }
+}

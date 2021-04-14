@@ -2,7 +2,7 @@
   "profiles": {
     "PlotterHelper": {
       "commandName": "Project",
-      "commandLineArgs": "-s D:\\TEMP\\Test.hpgl"
+      "commandLineArgs": "-s D:\\TEMP\\Text_3.hpgl"
     }
   }
 }

@@ -77,7 +77,7 @@ namespace PlotterHelper
         {
             try
             {
-                initSerialPort("COM3", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
+                initSerialPort("COM4", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
                 _serialPort.Open();
                 _serialPort.DiscardInBuffer();
                 _serialPort.DataReceived += _serialPort_DataReceived;

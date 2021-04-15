@@ -77,7 +77,7 @@ namespace PlotterHelper
         {
             try
             {
-                initSerialPort("COM4", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
+                initSerialPort("COM5", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
                 _serialPort.Open();
                 _serialPort.DiscardInBuffer();
                 _serialPort.DataReceived += _serialPort_DataReceived;
@@ -138,23 +138,19 @@ namespace PlotterHelper
             }
         }
 
-        private static void sendOnProgressChanged(object? sender, ProgressChangedEventArgs e)
-        {
-            Console.WriteLine(progressLog(""));
-        }
-
         private static void send()
         {
             var bytes = Encoding.ASCII.GetBytes(_hpglFile);
             var length = bytes.Length;
+            //var progressBar = new ProgressBar();
+
             for (var i = 0; i < length; i++)
             {
                 if (_fullBuffer) return;
                 _serialPort.Write(bytes, i, 1);
                 Thread.Sleep(1);
-                var progress = i / (float) length * 100;
 
-                Console.WriteLine(progressLog(progress.ToString("0.00")));
+                //progressBar.Report(i / (float)length * 100);
             }
         }
 
@@ -177,11 +173,6 @@ namespace PlotterHelper
         private static string fileLog(string value)
         {
             return "[file]:" + value;
-        }
-
-        private static string progressLog(string value)
-        {
-            return "[prog]:" + value + "%";
         }
 
         private static string exceptionLog(Exception value)

@@ -14,7 +14,7 @@ This repository will contain all things i know about my Robotron Reiss K6418 / C
 Foldername | Content
 ------ | ------
 Media   | all types of media like pictures and videos from the device
-Program | contains a little helper to convert* and send HPGL files to the plotter
-ROMs * | all my ROM dumps
+Program | contains a little helper to convert and send HPGL files to the plotter
+ROMs | dumps of 4 system ROMs and 1 user character ROM
 
 _*not present_

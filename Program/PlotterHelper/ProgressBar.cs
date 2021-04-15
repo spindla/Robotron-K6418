@@ -46,7 +46,7 @@ public class ProgressBar : IDisposable, IProgress<double>
 
 			int progressBlockCount = (int)(currentProgress * blockCount);
 			int percent = (int)(currentProgress * 100);
-			string text = string.Format("[{0}{1}] {2,3}% {3}",
+			string text = string.Format("[conn]: [{0}{1}] {2,3}% {3}",
 				new string('#', progressBlockCount), new string('-', blockCount - progressBlockCount),
 				percent,
 				animation[animationIndex++ % animation.Length]);

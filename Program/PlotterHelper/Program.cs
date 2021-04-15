@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace PlotterHelper
@@ -15,6 +15,8 @@ namespace PlotterHelper
         private static readonly string _year = "2021";
         private static string _hpglFile;
         private static bool _firstError;
+        private static readonly bool _sw = false;
+        private static readonly bool _saveFile = false;
 
         private static void Main(string[] args)
         {
@@ -24,7 +26,7 @@ namespace PlotterHelper
                 return;
             }
 
-            var command = args[0];
+            string command = args[0];
             switch (command)
             {
                 case "-v":
@@ -38,11 +40,13 @@ namespace PlotterHelper
                 case "-c" when args.Length == 3 && args[1] == "-s":
                     openFile(args[2]);
                     convert();
+                    if (_saveFile) saveFile(args[2]);
                     communication();
                     break;
                 case "-s" when args.Length == 3 && args[1] == "-c":
                     openFile(args[2]);
                     convert();
+                    if (_saveFile) saveFile(args[2]);
                     communication();
                     break;
                 default:
@@ -77,7 +81,7 @@ namespace PlotterHelper
         {
             try
             {
-                initSerialPort("COM5", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
+                initSerialPort("COM4", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
                 _serialPort.Open();
                 _serialPort.DiscardInBuffer();
                 _serialPort.DataReceived += _serialPort_DataReceived;
@@ -140,44 +144,74 @@ namespace PlotterHelper
 
         private static void send()
         {
-            var bytes = Encoding.ASCII.GetBytes(_hpglFile);
-            var length = bytes.Length;
-            //var progressBar = new ProgressBar();
+            byte[] bytes = Encoding.ASCII.GetBytes(_hpglFile);
+            int length = bytes.Length;
+            ProgressBar progressBar = new ProgressBar();
 
-            for (var i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (_fullBuffer) return;
-                _serialPort.Write(bytes, i, 1);
+                try
+                {
+                    _serialPort.Write(bytes, i, 1);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(exceptionLog(e));
+                    return;
+                }
+                progressBar.Report(i / ((float)length - 1));
                 Thread.Sleep(1);
-
-                //progressBar.Report(i / (float)length * 100);
             }
         }
 
         private static void convert()
         {
+            Console.WriteLine(fileLog("convert file"));
             //must be implemented
+            _hpglFile = new Regex("IN;", RegexOptions.IgnoreCase).Replace(_hpglFile, "", 1);
+            if (_sw) _hpglFile = "SW;" + _hpglFile;
+            _hpglFile = Regex.Replace(_hpglFile, "(?<!;PA)PD", "PD;PA");
+            _hpglFile = Regex.Replace(_hpglFile, "(?<!;PA)PU", "PU;PA");
+            _hpglFile = _hpglFile.Remove(_hpglFile.Length - 4, 4) + "NR;";
+            Console.WriteLine(fileLog("file converted"));
         }
 
         private static void openFile(string filePath)
         {
-            _hpglFile = File.ReadAllText(filePath);
             Console.WriteLine(fileLog("open file"));
+            _hpglFile = File.ReadAllText(filePath);
+            Console.WriteLine(fileLog("file opend"));
+        }
+
+        private static void saveFile(string filePath)
+        {
+            try
+            {
+                Console.WriteLine(fileLog("save file"));
+                filePath = filePath.Remove(filePath.Length - 5, 5) + "_converted.hpgl";
+                File.WriteAllText(filePath, _hpglFile);
+                Console.WriteLine(fileLog("file saved"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(exceptionLog(e));
+            }
         }
 
         private static string connectionLog(string value)
         {
-            return "[conn]:" + value;
+            return "[conn]: " + value;
         }
 
         private static string fileLog(string value)
         {
-            return "[file]:" + value;
+            return "[file]: " + value;
         }
 
         private static string exceptionLog(Exception value)
         {
-            return "[excp]:" + value;
+            return "[excp]: " + value;
         }
     }
 }

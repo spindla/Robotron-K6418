@@ -11,7 +11,7 @@ namespace PlotterHelper
     {
         private static SerialPort _serialPort;
         private static bool _fullBuffer;
-        private static readonly string _version = "0.1";
+        private static readonly string _version = "0.2";
         private static readonly string _year = "2021";
         private static string _hpglFile;
         private static bool _firstError;
@@ -31,6 +31,9 @@ namespace PlotterHelper
             {
                 case "-v":
                     version();
+                    break;
+                case "-h":
+                    help();
                     break;
                 case "-s" when args.Length == 2:
                     openFile(args[1]);
@@ -68,6 +71,11 @@ namespace PlotterHelper
         private static void version()
         {
             Console.WriteLine("Version {0}, Alexander Spindler {1}", _version, _year);
+        }
+
+        private static void help()
+        {
+
         }
 
         private static void communication()

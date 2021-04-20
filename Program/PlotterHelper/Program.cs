@@ -11,21 +11,40 @@ namespace PlotterHelper
     {
         private static SerialPort _serialPort;
         private static bool _fullBuffer;
-        private static readonly string _version = "0.2";
+        private static readonly string _version = "1.0";
         private static readonly string _year = "2021";
         private static string _hpglFile;
         private static bool _firstError;
         private static readonly bool _sw = false;
-        private static readonly bool _saveFile = false;
+
+        private static readonly string _helpString = "Send and convert files to your ROBOTRON K6418 / CM6415\n" +
+                                                     "\n" +
+                                                     "OPTIONS:\n" +
+                                                     "   -h      Display this help message\n" +
+                                                     "   -c      Convert *.hpgl\n" +
+                                                     "   -cs     Convert *.hpgl and save a copy of the converted file\n" +
+                                                     "   -s      send hpgl file to plotter, connection string:\n" +
+                                                     "                                          [serial-port;baud-rate;parity;data-bits;stop-bit]\n" +
+                                                     "\n" +
+                                                     "USAGE:\n" +
+                                                     "   PlotterHelper   [-h]\n" +
+                                                     "                   [-c -s [connection] [file path] | -s -c [connection] [file path]]\n" +
+                                                     "                   [-s [connection] [file path]]\n" +
+                                                     "                   [-cs [file path]]\n" +
+                                                     "\n" +
+                                                     "EXAMPLE:\n" +
+                                                     "   \"PlotterHelper -cs -s COM1;9600;N;8;1 C:\\example.hpgl\"\n" +
+                                                     "   This will convert, save and send the example.hpgl from C:\\ to the \n" +
+                                                     "   plotter on serialconnection COM1 with 9600 baud, no parity bit, 8 data-bits and one stop-bit.\n";
 
         private static void Main(string[] args)
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Invalid arguments");
+                Console.WriteLine("Invalid arguments\n");
+                help();
                 return;
             }
-
             string command = args[0];
             switch (command)
             {
@@ -35,25 +54,40 @@ namespace PlotterHelper
                 case "-h":
                     help();
                     break;
-                case "-s" when args.Length == 2:
+                case "-s" when args.Length == 3:
+                    openFile(args[2]);
+                    communication(args[1]);
+                    break;
+                case "-c" when args.Length == 4 && args[1] == "-s":
+                    openFile(args[3]);
+                    convertHPGL();
+                    communication(args[2]);
+                    break;
+                case "-s" when args.Length == 4 && args[1] == "-c":
+                    openFile(args[3]);
+                    convertHPGL();
+                    communication(args[2]);
+                    break;
+                case "-cs" when args.Length == 4 && args[1] == "-s":
+                    openFile(args[3]);
+                    convertHPGL();
+                    saveFile(args[3]);
+                    communication(args[2]);
+                    break;
+                case "-s" when args.Length == 4 && args[1] == "-cs":
+                    openFile(args[3]);
+                    convertHPGL();
+                    saveFile(args[3]);
+                    communication(args[2]);
+                    break;
+                case "-cs" when args.Length == 2:
                     openFile(args[1]);
-                    communication();
-                    break;
-
-                case "-c" when args.Length == 3 && args[1] == "-s":
-                    openFile(args[2]);
-                    convert();
-                    if (_saveFile) saveFile(args[2]);
-                    communication();
-                    break;
-                case "-s" when args.Length == 3 && args[1] == "-c":
-                    openFile(args[2]);
-                    convert();
-                    if (_saveFile) saveFile(args[2]);
-                    communication();
+                    convertHPGL();
+                    saveFile(args[1]);
                     break;
                 default:
-                    Console.WriteLine("Invalid command");
+                    Console.WriteLine("Invalid arguments\n");
+                    help();
                     break;
             }
         }
@@ -75,11 +109,14 @@ namespace PlotterHelper
 
         private static void help()
         {
-
+            Console.WriteLine(_helpString);
         }
 
-        private static void communication()
+        private static void communication(string connection)
         {
+            string[] con = Regex.Split(connection, ";");
+            initSerialPort(con[0], Convert.ToInt32(con[1]), convertParity(con[2]), Convert.ToInt32(con[3]),
+                convertStopBits(con[4]), Handshake.None, 512, false, false);
             openPort();
             send();
             closePort();
@@ -89,7 +126,6 @@ namespace PlotterHelper
         {
             try
             {
-                initSerialPort("COM4", 9600, Parity.None, 8, StopBits.One, Handshake.None, 512, false, false);
                 _serialPort.Open();
                 _serialPort.DiscardInBuffer();
                 _serialPort.DataReceived += _serialPort_DataReceived;
@@ -162,18 +198,19 @@ namespace PlotterHelper
                 try
                 {
                     _serialPort.Write(bytes, i, 1);
+                    progressBar.Report(i / ((float) length - 1));
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(exceptionLog(e));
                     return;
                 }
-                progressBar.Report(i / ((float)length - 1));
+
                 Thread.Sleep(1);
             }
         }
 
-        private static void convert()
+        private static void convertHPGL()
         {
             Console.WriteLine(fileLog("convert file"));
             //must be implemented
@@ -183,6 +220,42 @@ namespace PlotterHelper
             _hpglFile = Regex.Replace(_hpglFile, "(?<!;PA)PU", "PU;PA");
             _hpglFile = _hpglFile.Remove(_hpglFile.Length - 4, 4) + "NR;";
             Console.WriteLine(fileLog("file converted"));
+        }
+
+        private static Parity convertParity(string parity)
+        {
+            switch (parity)
+            {
+                case "N":
+                    return Parity.None;
+                case "O":
+                    return Parity.Odd;
+                case "E":
+                    return Parity.Even;
+                case "M":
+                    return Parity.Mark;
+                case "S":
+                    return Parity.Space;
+                default:
+                    return Parity.None;
+            }
+        }
+
+        private static StopBits convertStopBits(string stopBits)
+        {
+            switch (stopBits)
+            {
+                case "0":
+                    return StopBits.None;
+                case "1":
+                    return StopBits.One;
+                case "1.5":
+                    return StopBits.OnePointFive;
+                case "2":
+                    return StopBits.Two;
+                default:
+                    return StopBits.One;
+            }
         }
 
         private static void openFile(string filePath)

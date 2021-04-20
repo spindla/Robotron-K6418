@@ -1,5 +1,7 @@
 # Usage:
 
+_**you need the latest dot.NET 6 preview!**_
+
 Description of the commandline program:
 
 ```

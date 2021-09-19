@@ -28,9 +28,10 @@ EXAMPLE:
 
 ## How to get an *.hpgl-file?
 
-You can use Inkscape  (max. document size 370mm x 270mm) and save your file as *.hpgl. Before you must convert any object to path.
+You can use Inkscape version 0.92.4 (newer version dosen't work for me!) and save your file as *.hpgl. Before you must convert any object to path.
 
 Settings for *.hpgl-file:
+max. document size 370mm x 270mm
 
 ![alt text](Inkscape_Settings_1.jpg)
 

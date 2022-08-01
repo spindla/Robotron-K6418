@@ -116,7 +116,7 @@ namespace PlotterHelper
         {
             string[] con = Regex.Split(connection, ";");
             initSerialPort(con[0], Convert.ToInt32(con[1]), convertParity(con[2]), Convert.ToInt32(con[3]),
-                convertStopBits(con[4]), Handshake.XOnXOff, 512, false, false);
+                convertStopBits(con[4]), Handshake.XOnXOff, 512, true, true);
             openPort();
             send();
             closePort();
@@ -206,7 +206,7 @@ namespace PlotterHelper
                     return;
                 }
 
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
             }
         }
 

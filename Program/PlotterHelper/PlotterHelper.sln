@@ -1,25 +1,82 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.218
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32804.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotterHelper", "PlotterHelper.csproj", "{6BA5D492-C704-4CC4-B7AE-909887096B78}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlotterHelper.Shared", "PlotterHelper\PlotterHelper.Shared\PlotterHelper.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{988ACAF3-71D2-4F17-A7EF-2E505B28F9BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotterHelper.Wasm", "PlotterHelper\PlotterHelper.Wasm\PlotterHelper.Wasm.csproj", "{6A19B948-7844-4956-A2F5-ADBE621E5F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotterHelper.Windows", "PlotterHelper\PlotterHelper.Windows\PlotterHelper.Windows.csproj", "{87CB44DB-84D1-4796-9828-123B6BB7B2D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|arm64 = Debug|arm64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|arm64 = Release|arm64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6BA5D492-C704-4CC4-B7AE-909887096B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BA5D492-C704-4CC4-B7AE-909887096B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BA5D492-C704-4CC4-B7AE-909887096B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BA5D492-C704-4CC4-B7AE-909887096B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|arm64.Build.0 = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|x64.Build.0 = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Debug|x86.Build.0 = Debug|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|arm64.ActiveCfg = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|arm64.Build.0 = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|x64.ActiveCfg = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|x64.Build.0 = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C}.Release|x86.Build.0 = Release|Any CPU
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|Any CPU.Build.0 = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|arm64.ActiveCfg = Debug|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|arm64.Build.0 = Debug|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|arm64.Deploy.0 = Debug|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x64.ActiveCfg = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x64.Build.0 = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x64.Deploy.0 = Debug|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x86.ActiveCfg = Debug|x86
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x86.Build.0 = Debug|x86
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Debug|x86.Deploy.0 = Debug|x86
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|Any CPU.ActiveCfg = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|Any CPU.Build.0 = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|Any CPU.Deploy.0 = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|arm64.ActiveCfg = Release|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|arm64.Build.0 = Release|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|arm64.Deploy.0 = Release|arm64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x64.ActiveCfg = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x64.Build.0 = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x64.Deploy.0 = Release|x64
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x86.ActiveCfg = Release|x86
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x86.Build.0 = Release|x86
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6A19B948-7844-4956-A2F5-ADBE621E5F6C} = {988ACAF3-71D2-4F17-A7EF-2E505B28F9BE}
+		{87CB44DB-84D1-4796-9828-123B6BB7B2D2} = {988ACAF3-71D2-4F17-A7EF-2E505B28F9BE}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {921C24B6-BED8-4C4C-B91D-0CA83910C569}
+		SolutionGuid = {D194F024-B801-41C6-9A8A-BF08220BA7DA}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlotterHelper\PlotterHelper.Shared\PlotterHelper.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		PlotterHelper\PlotterHelper.Shared\PlotterHelper.Shared.projitems*{6a19b948-7844-4956-a2f5-adbe621e5f6c}*SharedItemsImports = 5
+		PlotterHelper\PlotterHelper.Shared\PlotterHelper.Shared.projitems*{87cb44db-84d1-4796-9828-123b6bb7b2d2}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

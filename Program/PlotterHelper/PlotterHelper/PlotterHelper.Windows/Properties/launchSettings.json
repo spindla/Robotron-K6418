@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "PlotterHelper.Windows": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

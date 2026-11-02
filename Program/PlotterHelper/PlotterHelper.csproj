@@ -2,13 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <Version>0.1</Version>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PlotterHelper</RootNamespace>
     <AssemblyName>PlotterHelper</AssemblyName>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
+    <!-- WICHTIG: Seit Spectre.Console 0.54.0 (Nov. 2025) wird Spectre.Console.Cli
+         in einem eigenen Repo mit EIGENEN Versionsnummern weiterentwickelt -
+         die beiden Pakete laufen also nicht mehr synchron! Falls "dotnet
+         restore" eine neuere Cli-Version zieht: prüfe mit
+         "dotnet list package" welche Version tatsächlich installiert ist.
+         Ab gewissen Versionen verlangen Command<T>.Execute / AsyncCommand<T>.
+         ExecuteAsync zusätzlich einen "CancellationToken"-Parameter (siehe
+         die Command-Klassen in diesem Projekt - die sind schon darauf
+         angepasst). -->
+    <PackageReference Include="Spectre.Console" Version="0.57.2" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.55.0" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.11" />
   </ItemGroup>
 
 </Project>

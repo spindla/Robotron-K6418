@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "PlotterHelper": {
-      "commandName": "Project",
-      "commandLineArgs": "-cs -s COM4;9600;N;8;1 D:\\TEMP\\WindowsLogos\\Logos.hpgl"
-    }
-  }
-}
